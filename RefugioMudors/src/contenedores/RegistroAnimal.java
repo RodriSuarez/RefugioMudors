@@ -46,9 +46,12 @@ public class RegistroAnimal implements IBasicas<Animal> {
 	}
 
 	@Override
-	public Animal buscar() {
-		// TODO Auto-generated method stub
-		return null;
+	public Animal buscar(String k)  {
+		///agregar nullpointerexception o controlen los ifs
+		if(map.containsKey(k))
+			return map.get(k);
+		else return null;
+		
 	}
 
 	

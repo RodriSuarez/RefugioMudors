@@ -24,7 +24,9 @@ public class Main {
 		reg.quitar(x4.getNombre());
 		System.out.println("\n\n\n"+reg.listar());
 
-		///esto funciona <3 
+		///esto funciona <3
+		System.out.println("\t\tBuscando!");
+		System.out.println(reg.buscar("Helen").toString());
 	}
 
 }

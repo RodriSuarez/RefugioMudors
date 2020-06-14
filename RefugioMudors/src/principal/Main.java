@@ -24,7 +24,7 @@ public class Main {
 		reg.quitar(x4.getNombre());
 		System.out.println("\n\n\n"+reg.listar());
 
-
+		///esto funciona <3 
 	}
 
 }

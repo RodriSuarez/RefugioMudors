@@ -4,10 +4,8 @@ import java.util.*;
 
 public class Animal {
  /**
-  * @author Rodrigo Suarez.
-  
-	
-	*/
+  * @author Rodrigo Suarez	
+  */
 	
 	private int edad;
 	private String nombre;
@@ -163,5 +161,9 @@ public class Animal {
 	}
 	// 				-- 		FIN Getters y Setters		    --   ///
 
+	
+	//TODO agregar manejo de JSON y archivos.
+	//TODO optativo, agregar implementacion de vacunas
+	//TODO 
 	
 }

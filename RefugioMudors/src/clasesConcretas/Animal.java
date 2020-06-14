@@ -33,6 +33,20 @@ public class Animal {
 		this.isDisponible = isDisponible;
 	}
 	
+	public Animal(String nombre, int edad, String raza, boolean isPerro) {
+		super();
+		this.edad = edad;
+		this.nombre = nombre;
+		this.raza = raza;
+		this.peso = 0;
+		this.observaciones = "";
+		this.fechaDeIngreso = new Date();
+		this.isPerro = isPerro;
+		this.isCastrado = false;
+		this.isAdoptado = false;
+		this.isDisponible = false;
+	}
+	
 	public Animal() {
 		super();
 		this.edad = 0;

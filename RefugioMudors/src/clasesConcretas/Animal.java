@@ -48,7 +48,9 @@ public class Animal {
 		this.isAdoptado = false;
 		this.isDisponible = false;
 	}
-
+	
+	
+	// 				-- 		Overrides de object 		    --   ///
 	@Override
 	public String toString() {
 		return "Animal [edad=" + edad + ", nombre=" + nombre + ", raza=" + raza + ", peso=" + peso + ", observaciones="
@@ -75,6 +77,10 @@ public class Animal {
 					
 		return ret;
 	}
+	
+	// 				-- 		FIN Overrides de object 		    --   ///
+
+	// 				-- 		Inicio Getters y Setters		    --   ///
 
 	public int getEdad() {
 		return edad;
@@ -155,6 +161,7 @@ public class Animal {
 	public void setDisponible(boolean isDisponible) {
 		this.isDisponible = isDisponible;
 	}
-	
+	// 				-- 		FIN Getters y Setters		    --   ///
+
 	
 }

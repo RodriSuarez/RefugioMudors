@@ -12,21 +12,23 @@ public class Main {
 		Animal x5 = new Animal("Helen", 3, "Sharpey", false);
 		
 		RegistroAnimal reg = new RegistroAnimal();
+		Registro<Animal> regAnim = new Registro<Animal>();
 		
-		reg.agregar(x1.getNombre(), x1);
-		reg.agregar(x2.getNombre(), x2);
-		reg.agregar(x3.getNombre(), x3);
-		reg.agregar(x4.getNombre(), x4);
-		reg.agregar(x5.getNombre(), x5);
 		
-		System.out.println(reg.listar());
+		regAnim.agregar(x1.getNombre(), x1);
+		regAnim.agregar(x2.getNombre(), x2);
+		regAnim.agregar(x3.getNombre(), x3);
+		regAnim.agregar(x4.getNombre(), x4);
+		regAnim.agregar(x5.getNombre(), x5);
+		
+		System.out.println(regAnim.listar());
 		
 		reg.quitar(x4.getNombre());
-		System.out.println("\n\n\n"+reg.listar());
+		System.out.println("\n\n\n"+regAnim.listar());
 
 		///esto funciona <3
 		System.out.println("\t\tBuscando!");
-		System.out.println(reg.buscar("Helen").toString());
+		System.out.println(regAnim.buscar("Helen").toString());
 	}
 
 }

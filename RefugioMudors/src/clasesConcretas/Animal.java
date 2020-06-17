@@ -1,9 +1,16 @@
 package clasesConcretas;
 
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
 public class Animal {
- /**
+
+
+/**
   * @author Rodrigo Suarez	
   */
 	
@@ -38,8 +45,8 @@ public class Animal {
 		this.edad = edad;
 		this.nombre = nombre;
 		this.raza = raza;
-		this.peso = 0;
-		this.observaciones = "";
+		this.peso = 120;
+		this.observaciones = "Alguna";
 		this.fechaDeIngreso = new Date();
 		this.isPerro = isPerro;
 		this.isCastrado = false;
@@ -65,9 +72,18 @@ public class Animal {
 	// 				-- 		Overrides de object 		    --   ///
 	@Override
 	public String toString() {
-		return "Animal [edad=" + edad + ", nombre=" + nombre + ", raza=" + raza + ", peso=" + peso + ", observaciones="
-				+ observaciones + ", fechaDeIngreso=" + fechaDeIngreso + ", isPerro=" + isPerro + ", isCastrado="
-				+ isCastrado + ", isAdoptado=" + isAdoptado + ", isDisponible=" + isDisponible + "]";
+		String tipo;
+		String castrado;
+		String adoptado;
+		String disponible;
+		if(isPerro) tipo = "perro"; else tipo = "gato";
+		if(isCastrado) castrado = "Si"; else castrado =  "No";
+		if(isAdoptado) adoptado = "Si"; else adoptado = "No";
+		if(isDisponible) disponible = "Si"; else disponible = "No";
+		
+		
+		return "Nombre: "+ nombre +"\nEdad: "+ edad + "\nRaza: " + raza + "\nPeso: "+peso+"\nFecha de ingreso: "+ fechaDeIngreso.toString() 
+		+"\nAnimal: "+ tipo + "\nCastrado: "+ castrado + "\nAdoptado: "+adoptado+"\nDisponible: "+disponible+"\n\n";
 	}
 
 	@Override
@@ -178,6 +194,33 @@ public class Animal {
 	
 	//TODO agregar manejo de JSON y archivos.
 	//TODO optativo, agregar implementacion de vacunas
-	//TODO 
+	//TODO archivos
 	
+	// 				-- Inicio archivos --         		//
+	
+	
+	public void guardarDatos() {
+		
+
+		try {
+			DataOutputStream  data = new DataOutputStream(new FileOutputStream("Animales.dat"));
+			data.writeInt(edad);
+			data.writeChars(nombre);
+			data.writeChars(raza);
+			data.writeFloat(peso);
+			data.writeChars(observaciones);
+		//	data.writeByte(fechaDeIngreso);
+			data.writeBoolean(isPerro);
+			data.writeBoolean(isCastrado);
+			data.writeBoolean(isAdoptado);
+			data.writeBoolean(isDisponible);
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

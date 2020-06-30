@@ -5,6 +5,12 @@ import java.util.*;
 import java.util.Map.Entry;
 
 
+/**
+ * 
+ * @author 
+ * @deprecated 
+ * @param <E>
+ */
 
 public class Registro<E>  implements IBasicas<E>{
 
@@ -40,6 +46,7 @@ public class Registro<E>  implements IBasicas<E>{
 		
 		Set<Entry<String, E>> st = map.entrySet();
 		Iterator<Entry<String, E>> it = st.iterator();
+	
 		while(it.hasNext()){
 			sb.append(it.next().toString()+"\n\n");
 		}

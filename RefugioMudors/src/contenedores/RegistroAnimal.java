@@ -5,11 +5,19 @@ import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
 
+import org.json.JSONArray;
+
 import interfaces.IBasicas;
+import json.JsonUtiles;
 import clasesConcretas.*;
 
-public class RegistroAnimal implements IBasicas<Animal> {
+public class RegistroAnimal implements IBasicas<Animal>, Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private HashMap<String, Animal> map;
 	
 	public RegistroAnimal() {
@@ -58,19 +66,20 @@ public class RegistroAnimal implements IBasicas<Animal> {
 		
 	}
 
-	
+	// 				-- Inicio archivos --         		//
+
 	
 	public void guardarRegistro() throws IOException {
 		
-		StringBuilder sb = new StringBuilder();
-		
+	//	FileOutputStream asd = new FileOutputStream("Animales.dat");
 		DataOutputStream  data = new DataOutputStream(new FileOutputStream("Animales.dat"));
-
+		
 		Set<Entry<String, Animal>> st = map.entrySet();
 		Iterator<Entry<String, Animal>> it = st.iterator();
 		Animal aux;
 		
 		while(it.hasNext()){
+		
 			aux =  (Animal) it.next().getValue();
 			data.writeInt(aux.getEdad());
 			data.writeUTF(aux.getNombre());
@@ -78,13 +87,16 @@ public class RegistroAnimal implements IBasicas<Animal> {
 			data.writeFloat(aux.getPeso());
 			data.writeUTF(aux.getObservaciones());
 		//	data.writeByte(fechaDeIngreso);
+			data.writeInt(aux.getFechaDeIngreso().getYear());
+			data.writeInt(aux.getFechaDeIngreso().getMonth());
+			data.writeInt(aux.getFechaDeIngreso().getDate());
 			data.writeBoolean(aux.isPerro());
 			data.writeBoolean(aux.isCastrado());
 			data.writeBoolean(aux.isAdoptado());
 			data.writeBoolean(aux.isDisponible());
-			System.out.println("vuelta");
+			
 		}
-		
+		data.close();
 		
 	}
 	
@@ -98,21 +110,25 @@ public class RegistroAnimal implements IBasicas<Animal> {
 			dataIngreso = new DataInputStream(fileIngreso);
 //			Animal aux = new Animal();
 			while(true) {
+				
+				
 				Animal aux = new Animal();
 				aux.setEdad(dataIngreso.readInt());
 				aux.setNombre(dataIngreso.readUTF());				
 				aux.setRaza(dataIngreso.readUTF());
 				aux.setPeso(dataIngreso.readFloat());
 				aux.setObservaciones(dataIngreso.readUTF());
+				aux.setFechaDeIngreso(new Date(dataIngreso.readInt(), dataIngreso.readInt(), dataIngreso.readInt(), 0,0,0 ));
+		//		System.out.println(aux.getFechaDeIngreso());
 				aux.setPerro(dataIngreso.readBoolean());
 				aux.setCastrado(dataIngreso.readBoolean());			
 				aux.setAdoptado(dataIngreso.readBoolean());
 				aux.setDisponible(dataIngreso.readBoolean());
 			
-
-				aux.setFechaDeIngreso(new Date());
 				
-				System.out.println(aux.toString());
+			//	aux.setFechaDeIngreso(new GregorianCalendar());
+				
+//				System.out.println(aux.toString());
 				
 				agregar(aux.getNombre(), aux);
 			
@@ -135,8 +151,30 @@ public class RegistroAnimal implements IBasicas<Animal> {
 		
 		
 	}
+	
+	public void grabarJson(){
+		
+		Set<Entry<String, Animal>> st = map.entrySet();
+		Iterator<Entry<String, Animal>> it = st.iterator();
+		Animal aux;
+		JSONArray json = new JSONArray();
+		
+		while(it.hasNext()){
+		
+			aux =  (Animal) it.next().getValue();
+			json.put(aux.toJson());
+			
+		}
+		
+		JsonUtiles.grabar(json, "animales.json");
+	}
 
 	
+	// 				-- FIN archivos --         		//
 	
+	// 				-- Inicio JSON --         		//
+
+	
+
 
 }

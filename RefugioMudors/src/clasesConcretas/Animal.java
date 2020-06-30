@@ -7,12 +7,31 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+/**
+ * @author Rodrigo Suarez	
+ * @see <h1> calate esta wacho </h1>
+ */
 public class Animal {
 
 
-/**
-  * @author Rodrigo Suarez	
-  */
+
+	transient public static String KEY_EDAD = "edad";
+	transient public static String KEY_NOMBRE = "nombre";
+	transient public static String KEY_RAZA = "raza";
+	transient public static String KEY_PESO = "peso";
+	transient public static String KEY_OBSERVACIONES = "observaciones";
+	transient public static String KEY_FECHA = "fecha";
+	transient public static String KEY_YEAR = "year";
+	transient public static String KEY_MONTH = "month";
+	transient public static String KEY_DAY = "day";
+	transient public static String KEY_ISPERRO = "isperro";
+	transient public static String KEY_CASTRADO = "iscastrado";
+	transient public static String KEY_ADOPTADO = "isadoptado";
+	transient public static String KEY_DISPONIBLE = "isdisponible";
+	transient public static String KEY_ID = "id";
 	
 	private int edad;
 	private String nombre;
@@ -24,9 +43,11 @@ public class Animal {
 	private boolean isCastrado;
 	private boolean isAdoptado;
 	private boolean isDisponible;
+	private int id;
+	transient private static int proximaID = 1;
 	
 	public Animal(int edad, String nombre, String raza, float peso, String observaciones, Date fechaDeIngreso,
-			boolean isPerro, boolean isCastrado, boolean isAdoptado, boolean isDisponible) {
+			boolean isPerro, boolean isCastrado, boolean isAdoptado, boolean isDisponible, int id) {
 		super();
 		this.edad = edad;
 		this.nombre = nombre;
@@ -38,6 +59,17 @@ public class Animal {
 		this.isCastrado = isCastrado;
 		this.isAdoptado = isAdoptado;
 		this.isDisponible = isDisponible;
+		this.id = id;
+		
+		/**
+		 * Evalua 
+		 */
+		if(id > proximaID)
+			proximaID = id + 1;
+		else if (id == proximaID)
+			proximaID++;
+			
+			
 	}
 	
 	public Animal(String nombre, int edad, String raza, boolean isPerro) {
@@ -52,6 +84,9 @@ public class Animal {
 		this.isCastrado = false;
 		this.isAdoptado = false;
 		this.isDisponible = false;
+		this.id = proximaID;
+		proximaID++;
+		
 	}
 	
 	public Animal() {
@@ -66,6 +101,8 @@ public class Animal {
 		this.isCastrado = false;
 		this.isAdoptado = false;
 		this.isDisponible = false;
+		this.id = proximaID;
+		proximaID++;
 	}
 	
 	
@@ -82,7 +119,7 @@ public class Animal {
 		if(isDisponible) disponible = "Si"; else disponible = "No";
 		
 		
-		return "Nombre: "+ nombre +"\nEdad: "+ edad + "\nRaza: " + raza + "\nPeso: "+peso+"\nFecha de ingreso: "+ fechaDeIngreso.toString() 
+		return "ID: "+id+"\nNombre: "+ nombre +"\nEdad: "+ edad + "\nRaza: " + raza + "\nPeso: "+peso+"\nFecha de ingreso: "+ fechaDeIngreso.toString() 
 		+"\nAnimal: "+ tipo + "\nCastrado: "+ castrado + "\nAdoptado: "+adoptado+"\nDisponible: "+disponible+"\n\n";
 	}
 
@@ -156,6 +193,7 @@ public class Animal {
 
 	public void setFechaDeIngreso(Date fechaDeIngreso) {
 		this.fechaDeIngreso = fechaDeIngreso;
+
 	}
 
 	public boolean isPerro() {
@@ -203,13 +241,18 @@ public class Animal {
 		
 
 		try {
+			
 			DataOutputStream  data = new DataOutputStream(new FileOutputStream("Animales.dat"));
+			
 			data.writeInt(edad);
 			data.writeChars(nombre);
 			data.writeChars(raza);
 			data.writeFloat(peso);
 			data.writeChars(observaciones);
 		//	data.writeByte(fechaDeIngreso);
+			data.writeInt(fechaDeIngreso.getYear());
+			data.writeInt(fechaDeIngreso.getMonth());
+			data.writeInt(fechaDeIngreso.getDate());		
 			data.writeBoolean(isPerro);
 			data.writeBoolean(isCastrado);
 			data.writeBoolean(isAdoptado);
@@ -221,6 +264,38 @@ public class Animal {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+	}
+	
+	
+	public JSONObject toJson() {
+		
+		JSONObject aux = new JSONObject();
+		JSONObject fecha = new JSONObject();
+		
+		try {
+			aux.put(KEY_EDAD,edad);
+			aux.put(KEY_NOMBRE, nombre);
+			aux.put(KEY_RAZA, raza);
+			aux.put(KEY_PESO, peso);
+			aux.put(KEY_OBSERVACIONES , observaciones);
+			fecha.put(KEY_YEAR , fechaDeIngreso.getYear());
+			fecha.put(KEY_MONTH , fechaDeIngreso.getMonth());
+			fecha.put(KEY_DAY ,fechaDeIngreso.getDate());
+			aux.put(KEY_FECHA ,fecha);
+			aux.put(KEY_ISPERRO ,isPerro);
+			aux.put(KEY_CASTRADO , isCastrado);
+			aux.put(KEY_ADOPTADO , isAdoptado);
+			aux.put(KEY_DISPONIBLE , isDisponible);
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		return aux;
 		
 	}
 }

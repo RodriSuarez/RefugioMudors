@@ -26,11 +26,13 @@ public class RegistroAnimal implements IBasicas<Animal>, Serializable{
 
 	@Override
 	public boolean agregar(String k, Animal e) {
-		if(!map.containsKey(k) && e != null) {
+		boolean rta = false;
+		if(e != null && !map.containsKey(k)) {
 			map.put(k,e);
-			return true;
-		}else return false;
+			rta = true;
+		}else rta = false;
 		
+		return rta;
 	}
 
 	@Override

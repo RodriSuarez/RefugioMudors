@@ -3,20 +3,22 @@ package principal;
 import java.io.*;
 import java.util.Date;
 
+import org.json.JSONException;
+
+import clasesAbstractas.Denuncia;
 import clasesConcretas.*;
 import contenedores.*;
+import vista.ListaAnimales;
+import vista.VistaPrincipal;
+import java.sql.Date;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws JSONException {
 		// TODO Auto-generated method stub
-		Animal x1 = new Animal("Simba", 1, "Ninguna", false);
-		Animal x2 = new Animal("Cocoa", 2, "Perro", true);
-		Animal x3 = new Animal("Puqui", 19, "Ninguna", true);
-		Animal x4 = new Animal("Samira", 4, "Pitbull", true);
-		Animal x5 = new Animal("Helen", 3, "Sharpey", false);
-	//	 Animal x6 = new Animal()
-		try {
+
+
+	/*	try {
 			FileInputStream bn = new FileInputStream("Animales.dat");
 		//	ObjectInputStream fobj = new ObjectInputStream(bn);
 		} catch (FileNotFoundException e) {
@@ -24,50 +26,21 @@ public class Main {
 			System.out.println("No se encontro el archivo.");
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 		
-		RegistroAnimal reg = new RegistroAnimal();
-	//	reg.levantarRegistro();
-
-		Registro<Animal> regAnim = new Registro<Animal>();
+		Refugio  mudors = new Refugio();
 		
-		//Date fechita = new Date(x5.getFechaDeIngreso().getYear(), x5.getFechaDeIngreso().getMonth(), x5.getFechaDeIngreso().getDate());
-		//System.out.println(fechita.toString());
-		reg.agregar(x1.getNombre(), x1);
-
-		reg.agregar(x2.getNombre(), x2);
-		reg.agregar(x3.getNombre(), x3);
-		reg.agregar(x4.getNombre(), x4);
-		reg.agregar(x5.getNombre(), x5);
+		mudors.levantar();
 		
-//		reg.buscar("Samira").setNombre("Fernando");
-		//System.out.println(regAnim.listar());
-		System.out.println(reg.listar());
-	//	reg.quitar(x4.getNombre());
-//		System.out.println("\n\n\n"+regAnim.listar());
-//		regAnim.buscar(x1.getNombre()).guardarDatos();
-		///esto funciona <3
-//		System.out.println("\t\tBuscando!");
-//		System.out.println(regAnim.buscar("Helen").toString());
-//		x2.guardarDatos();
-//		x3.guardarDatos();
-//		try {
-//		reg.guardarRegistro();
-//		} catch (IOException e) {
-//		// TODO Auto-generated catch block
-//		}
+		Denuncia x = new Denuncia((new java.sql.Date(0)), 12345, false, new Domicilio("F. Acosta", 4099, 0, 0));
 		
-		System.out.println(reg.listar());
-		System.out.println("\n\nDespues de levantar el registro\n\n");
-		System.out.println(reg.listar());
-		try {
-			reg.guardarRegistro();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Denuncia x2 = new Denuncia();
 		
-		reg.grabarJson();
+		mudors.regDenuncias.agregar("1", x);
+		mudors.regDenuncias.agregar("2", x2);
+		mudors.toJson();
+		
+	
 	}
 		
 		

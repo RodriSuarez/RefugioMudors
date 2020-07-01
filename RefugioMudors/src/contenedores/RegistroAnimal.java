@@ -6,6 +6,8 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import interfaces.IBasicas;
 import json.JsonUtiles;
@@ -60,11 +62,13 @@ public class RegistroAnimal implements IBasicas<Animal>, Serializable{
 	}
 
 	@Override
-	public Animal buscar(String k)  {
+	public Animal buscar(String k) throws NullPointerException {
 		///TODO agregar nullpointerexception o controlen los ifs
 		if(map.containsKey(k))
 			return map.get(k);
-		else return null;
+		else {
+			throw new NullPointerException();
+		}
 		
 	}
 
@@ -154,10 +158,17 @@ public class RegistroAnimal implements IBasicas<Animal>, Serializable{
 		
 	}
 	
+
+	
+	// 				-- FIN archivos --         		//
+	
+	// 				-- Inicio JSON --         		//
+
 	public void grabarJson(){
 		
 		Set<Entry<String, Animal>> st = map.entrySet();
 		Iterator<Entry<String, Animal>> it = st.iterator();
+		
 		Animal aux;
 		JSONArray json = new JSONArray();
 		
@@ -170,13 +181,46 @@ public class RegistroAnimal implements IBasicas<Animal>, Serializable{
 		
 		JsonUtiles.grabar(json, "animales.json");
 	}
-
 	
-	// 				-- FIN archivos --         		//
+	public void levantarJson() throws JSONException {
+		
+		JSONArray aux = new JSONArray(JsonUtiles.leer("animales.json"));
+		
+		for(int i = 0; i < aux.length(); i++) {
+			JSONObject auxObj = aux.getJSONObject(i);
+			JSONObject auxfecha = new JSONObject(auxObj.get(Animal.KEY_FECHA).toString());
+			Date fecha = new Date(auxfecha.getInt(Animal.KEY_YEAR),auxfecha.getInt(Animal.KEY_MONTH),auxfecha.getInt(Animal.KEY_DAY),0,0,0);
+	//		Date x = new Date();
+	//		Animal asd = new Animal(edad, nombre, raza, peso, observaciones, fechaDeIngreso, isPerro, isCastrado, isAdoptado, isDisponible, id)
+		
+			Animal animAux = new Animal(auxObj.getInt(Animal.KEY_EDAD), auxObj.getString(Animal.KEY_NOMBRE), auxObj.getString(Animal.KEY_RAZA),
+					auxObj.getInt(Animal.KEY_PESO), auxObj.getString(Animal.KEY_OBSERVACIONES), fecha, auxObj.getBoolean(Animal.KEY_ISPERRO),
+					auxObj.getBoolean(Animal.KEY_CASTRADO),	auxObj.getBoolean(Animal.KEY_ADOPTADO), auxObj.getBoolean(Animal.KEY_DISPONIBLE), auxObj.getInt(Animal.KEY_ID));
+			
+			agregar(animAux.getID(), animAux);
+			
+	//		System.out.println(auxObj.get(Animal.KEY_NOMBRE));
+		}
+		
+	}
 	
-	// 				-- Inicio JSON --         		//
-
+	public JSONArray toJsonArray() {
+		Set<Entry<String, Animal>> st = map.entrySet();
+		Iterator<Entry<String, Animal>> it = st.iterator();
+		
+		Animal aux;
+		JSONArray json = new JSONArray();
+		
+		while(it.hasNext()){
+		
+			aux =  (Animal) it.next().getValue();
+			json.put(aux.toJson());
+			
+		}
+		
+		return json;
+	}
 	
-
+	// 				-- FIN JSON --         		//
 
 }

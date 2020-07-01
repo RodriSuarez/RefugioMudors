@@ -46,6 +46,7 @@ public class Animal {
 	private int id;
 	transient private static int proximaID = 1;
 	
+	
 	public Animal(int edad, String nombre, String raza, float peso, String observaciones, Date fechaDeIngreso,
 			boolean isPerro, boolean isCastrado, boolean isAdoptado, boolean isDisponible, int id) {
 		super();
@@ -227,12 +228,16 @@ public class Animal {
 	public void setDisponible(boolean isDisponible) {
 		this.isDisponible = isDisponible;
 	}
+	
+	public String getID() {
+		String aux;
+		aux = Integer.toString(id);
+		return aux;
+	}
 	// 				-- 		FIN Getters y Setters		    --   ///
 
 	
-	//TODO agregar manejo de JSON y archivos.
 	//TODO optativo, agregar implementacion de vacunas
-	//TODO archivos
 	
 	// 				-- Inicio archivos --         		//
 	
@@ -274,6 +279,7 @@ public class Animal {
 		JSONObject fecha = new JSONObject();
 		
 		try {
+			aux.put(KEY_ID, id);
 			aux.put(KEY_EDAD,edad);
 			aux.put(KEY_NOMBRE, nombre);
 			aux.put(KEY_RAZA, raza);

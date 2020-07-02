@@ -81,6 +81,8 @@ public class RegistroDenuncias implements IBasicas<Denuncia> {
 		return auxDenuncia;
 	}
 	
+	
+	
 	public JSONArray toJsonArray() {
 		Set<Entry<String, Denuncia>> st = registroDenuncias.entrySet();
 		Iterator<Entry<String, Denuncia>> it = st.iterator();

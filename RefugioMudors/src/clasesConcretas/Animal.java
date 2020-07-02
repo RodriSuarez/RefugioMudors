@@ -14,10 +14,15 @@ import org.json.JSONObject;
  * @author Rodrigo Suarez	
  * @see <h1> calate esta wacho </h1>
  */
-public class Animal {
+public class Animal implements Serializable {
 
 
 
+	/**
+	 * Parametros estaticos que se utilizaran para compilar el programa pero no para la ejecucion del mismo
+	 */
+	transient private static final long serialVersionUID = 9097910461851896056L;
+	transient public static final String ARCHI_ANIMALES = "animales.dat";
 	transient public static String KEY_EDAD = "edad";
 	transient public static String KEY_NOMBRE = "nombre";
 	transient public static String KEY_RAZA = "raza";
@@ -33,6 +38,8 @@ public class Animal {
 	transient public static String KEY_DISPONIBLE = "isdisponible";
 	transient public static String KEY_ID = "id";
 	
+	
+	
 	private int edad;
 	private String nombre;
 	private String raza;
@@ -44,7 +51,7 @@ public class Animal {
 	private boolean isAdoptado;
 	private boolean isDisponible;
 	private int id;
-	transient private static int proximaID = 1;
+	transient private static int proximaID = 1; //Inicializamos el primer ID en uno para que comience a contar desde dicho numero
 	
 	
 	public Animal(int edad, String nombre, String raza, float peso, String observaciones, Date fechaDeIngreso,
@@ -63,12 +70,12 @@ public class Animal {
 		this.id = id;
 		
 		/**
-		 * Evalua 
+		 * Evalua si el id que ingresa es mayor al proximo que deberia asignarse,
+		 * en caso de que si, el proximo ID se vuelve el ingresado por parametro + 1.
 		 */
-		if(id > proximaID)
+		if(id >= proximaID)
 			proximaID = id + 1;
-		else if (id == proximaID)
-			proximaID++;
+	
 			
 			
 	}
@@ -118,12 +125,12 @@ public class Animal {
 		if(isCastrado) castrado = "Si"; else castrado =  "No";
 		if(isAdoptado) adoptado = "Si"; else adoptado = "No";
 		if(isDisponible) disponible = "Si"; else disponible = "No";
-		
+	
 		
 		return "ID: "+id+"\nNombre: "+ nombre +"\nEdad: "+ edad + "\nRaza: " + raza + "\nPeso: "+peso+"\nFecha de ingreso: "+ fechaDeIngreso.toString() 
 		+"\nAnimal: "+ tipo + "\nCastrado: "+ castrado + "\nAdoptado: "+adoptado+"\nDisponible: "+disponible+"\n\n";
 	}
-
+	
 	@Override
 	public int hashCode() {
 	

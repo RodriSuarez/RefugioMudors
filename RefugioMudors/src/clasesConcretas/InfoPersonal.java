@@ -1,9 +1,24 @@
 package clasesConcretas;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class InfoPersonal {
+import org.json.JSONException;
+import org.json.JSONObject;
 
+public class InfoPersonal implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1843958626806228820L;
+	transient public static final String KEY_DNI = "dni";
+	transient public static final String KEY_NOMBRE = "nombrepersona";
+	transient public static final String KEY_APELLIDO = "apellidopersona";
+	transient public static final String KEY_FECHANAC = "fechanacimiento";
+	transient public static final String KEY_YEAR = "yeardate";
+	transient public static final String KEY_MONTH = "monthdate";
+	transient public static final String KEY_DAY = "daydate";
 	private String dni;
 	private String nombre;
 	private String apellido;
@@ -88,4 +103,23 @@ public class InfoPersonal {
 		return rta;
 	}
 	
+	public JSONObject toJson() {
+		
+		JSONObject json = new JSONObject();
+		JSONObject fecha = new JSONObject();
+		try {
+			json.put(KEY_NOMBRE, nombre);
+			json.put(KEY_APELLIDO, apellido);
+			json.put(KEY_DNI, dni);
+			fecha.put(KEY_YEAR, fechaNacimiento.getYear());
+			fecha.put(KEY_MONTH, fechaNacimiento.getMonth());
+			fecha.put(KEY_DAY, fechaNacimiento.getDate());
+			json.put(KEY_FECHANAC, fecha);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return json;
+	}
 }

@@ -1,12 +1,22 @@
 package clasesAbstractas;
 
+import java.io.Serializable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import clasesConcretas.InfoContacto;
 import clasesConcretas.InfoPersonal;
 
-public abstract class Persona {
+public abstract class Persona implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7023512486231294114L;
 	//TODO sobreescribir y sobrecargar setters
 	//TODO para la clase Adoptante agregar boolean tieneDenuncias
-	
+	transient public static final String KEY_INFOPERSONAL = "infoPE";
+	transient public static final String KEY_INFOCONTACT = "infoC";
 	private InfoPersonal informacionPersonal;
 	private InfoContacto informacionDeContacto;
 	
@@ -47,11 +57,8 @@ public abstract class Persona {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((informacionDeContacto == null) ? 0 : informacionDeContacto.hashCode());
-		result = prime * result + ((informacionPersonal == null) ? 0 : informacionPersonal.hashCode());
-		return result;
+	
+		return 1;
 	}
 
 	@Override
@@ -78,7 +85,20 @@ public abstract class Persona {
 	
 	
 	
-
+	public JSONObject toJson() {
+		
+		JSONObject json = new JSONObject();
+		
+		try {
+			json.put(KEY_INFOCONTACT, informacionDeContacto.toJSON());
+			json.put(KEY_INFOPERSONAL, informacionPersonal.toJson());
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return json;
+	}
 	
 	
 

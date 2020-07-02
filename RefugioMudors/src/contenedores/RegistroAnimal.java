@@ -61,9 +61,13 @@ public class RegistroAnimal implements IBasicas<Animal>, Serializable{
 		return sb.toString();
 	}
 
+	/**
+	 * @param String clave para buscar dentro del hashmap.
+	 * @throws <b>NullPointerException si la clave no existe.</b>
+	 */
 	@Override
-	public Animal buscar(String k) throws NullPointerException {
-		///TODO agregar nullpointerexception o controlen los ifs
+	public Animal buscar(String k) {
+		
 		if(map.containsKey(k))
 			return map.get(k);
 		else {
@@ -74,7 +78,42 @@ public class RegistroAnimal implements IBasicas<Animal>, Serializable{
 
 	// 				-- Inicio archivos --         		//
 
-	
+	public void guardarRegistroObj()  {
+		FileOutputStream inData = null;
+		ObjectOutputStream data = null;
+		try {
+			inData =  new FileOutputStream(Animal.ARCHI_ANIMALES);
+			data = new ObjectOutputStream(inData);
+		}catch(IOException e){
+			e.printStackTrace();
+			System.out.println("asd");
+		}
+		
+		Set<Entry<String, Animal>> st = map.entrySet();
+		Iterator<Entry<String, Animal>> it = st.iterator();
+		Animal aux;
+		
+		while(it.hasNext()) {
+			aux = it.next().getValue();
+			
+			try {
+				data.writeObject(aux);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			};
+		}
+		try {
+			data.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * @deprecated Mejorado, directamente guarda objetos.
+	 * @throws IOException
+	 */
 	public void guardarRegistro() throws IOException {
 		
 	//	FileOutputStream asd = new FileOutputStream("Animales.dat");
@@ -106,6 +145,51 @@ public class RegistroAnimal implements IBasicas<Animal>, Serializable{
 		
 	}
 	
+	/**
+	 * @see <p> Manejo de archivos, lee los registros guardados y los agregar al hashmap </p>
+	 * @exception FileNotFoundException, 
+	 * 
+	 */
+	
+	public void levantarRegistroObj() {
+		ObjectInputStream objIngreso = null;
+		FileInputStream fileIngreso;
+		
+		
+			try {
+				fileIngreso = new FileInputStream(Animal.ARCHI_ANIMALES);
+				objIngreso = new ObjectInputStream(fileIngreso);
+				
+				while(true) {
+					Animal aux = (Animal) objIngreso.readObject();
+					agregar(aux.getID(), aux);
+				}
+				
+				
+			} catch (FileNotFoundException e) {
+				
+				e.printStackTrace();
+			} catch(EOFException e) {
+				System.out.println("Termino el archivo");
+			} catch(IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+				
+	
+	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * @deprecated Se utilizaba para leer dato por dato.
+	 */
 	public void levantarRegistro() {
 		
 		DataInputStream dataIngreso = null;

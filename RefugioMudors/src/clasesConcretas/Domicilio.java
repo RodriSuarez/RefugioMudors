@@ -1,10 +1,16 @@
 package clasesConcretas;
 
+import java.io.Serializable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Domicilio {
+public class Domicilio implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2109776361171380725L;
 	//para evitar líos de claves....
 	transient public static String KEY_CALLE = "calle";
 	transient public static String KEY_ALTURA = "altura";

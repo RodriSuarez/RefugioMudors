@@ -20,28 +20,25 @@ public class Refugio {
 	
 	public void guardar() {
 		
-		try {
-			regAnimal.guardarRegistro();
-			//regDenuncias.guardarRegistro();
-			//regAdoptantes.guardarRegistro();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		regAnimal.guardarRegistroObj();
+		//regDenuncias.guardarRegistro();
+		//regAdoptantes.guardarRegistro();
 		
 		
 	}
+	
 	
 	public void levantar() {
-		regAnimal.levantarRegistro(); 
+		regAnimal.levantarRegistroObj(); 
 	}
 	
-	public void toJson() {
+	public void guardarArchivoJson() {
 		JSONArray aux = new JSONArray();
 		
 		aux.put(regAnimal.toJsonArray());
 		aux.put(regDenuncias.toJsonArray());
-		
+		//aux.put(regPersonas.toJsonArray());
+
 		JsonUtiles.grabar(aux, "datos.json");
 		
 	}

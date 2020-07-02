@@ -14,7 +14,7 @@ import java.sql.Date;
 
 public class Main {
 
-	public static void main(String[] args) throws JSONException {
+	public static void main(String[] args)  {
 		// TODO Auto-generated method stub
 
 
@@ -30,7 +30,7 @@ public class Main {
 		
 		Refugio  mudors = new Refugio();
 		
-		mudors.levantar();
+	//	mudors.levantar();
 		
 		Denuncia x = new Denuncia((new java.sql.Date(0)), 12345, false, new Domicilio("F. Acosta", 4099, 0, 0));
 		
@@ -38,7 +38,11 @@ public class Main {
 		
 		mudors.regDenuncias.agregar("1", x);
 		mudors.regDenuncias.agregar("2", x2);
-		mudors.toJson();
+		//mudors.toJson();
+		mudors.regAnimal.levantarRegistroObj();
+	
+		System.out.println(mudors.regAnimal.listar());
+		//	mudors.regAnimal.guardarRegistroObj();
 		
 	
 	}

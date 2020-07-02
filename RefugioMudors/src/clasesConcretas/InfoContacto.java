@@ -1,6 +1,20 @@
 package clasesConcretas;
 
-public class InfoContacto {
+import java.io.Serializable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class InfoContacto implements Serializable{
+	
+	/**
+	 * 
+	 */
+	transient private static final long serialVersionUID = 8730588261414613415L;
+	transient public static final String KEY_NROFIJO = "nroFijo";
+	transient public static final String KEY_NROCEL = "nroCel";
+	transient public static final String KEY_MAIL = "mail";
+	transient public static final String KEY_DOMICILIO = "domicilio";
 	
 	private Domicilio domicilio;
 	private String nroTelFijo;
@@ -92,6 +106,25 @@ public class InfoContacto {
 		return rta;
 	}
 	
+	public JSONObject toJSON() {
+		
+		JSONObject json = new JSONObject();
+		
+		try {
+			json.put(KEY_NROCEL, nroCelular);
+			json.put(KEY_NROFIJO, nroTelFijo);
+			json.put(KEY_MAIL, direccionEmail);
+			json.put(KEY_DOMICILIO, domicilio.DomicilioTOJsonObject());
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		return json;
+	}
 	
 
 }
